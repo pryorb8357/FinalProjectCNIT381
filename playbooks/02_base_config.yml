@@ -1,7 +1,7 @@
 ##Hostnames: Create Interfaces | Interface descriptions | Login banners
 ---
-- name: Base Configurations for routers and switches
-  host: routers
+- name: Adding Banner to all devices
+  hosts: routers, switch
   gather_facts: no
 
   tasks:
@@ -13,3 +13,56 @@
       - All activities are monitored and recorded.
       - Disconnect immediately if you are not an authorized user.
       - ^C
+
+  - name: Configure R1 interfaces
+    hosts: R1
+    gather_facts: no
+
+    tasks:
+    - name: Configure R1 interfaces
+      cisco.ios.ios_config:
+      lines:
+        - interface GigabitEthernet0/0/0
+        - description R2-Gi0/0/0
+        - ip address 172.168.1.1 255.255.255.252
+        - no shutdown
+        - interface GigabitEthernet0/0/1
+        - description S1-F0/1
+        - ip address 10.1.1.1 255.255.255.0
+        - no shutdown
+        - interface Loopback0
+        - description Loopback 1
+        - ip address 1.1.1.1 255.255.255.255
+        - interface Loopback1
+        - description Loopback 2
+        - ip address 2.2.2.2 255.255.255.255
+        - interface Loopback2
+        - description Loopback 3
+        - ip address 3.3.3.3 255.255.255.255
+
+  - name: Configure R2 interfaces
+    hosts: R2
+    gather_facts: no
+    tasks:
+    - name: Configure R2 interfaces
+      cisco.ios.ios_config:
+      lines:
+        - interface GigabitEthernet0/0/0
+        - description R1-Gi0/0/0
+        - ip address 172.168.1.2 255.255.255.252
+        - no shutdown
+        - interface GigabitEthernet0/0/1
+        - description S1-F0/2
+        - ip address  10.1.1.2 255.255.255.0
+        - no shutdown
+        - interface Loopback0
+        - description Loopback 4
+        - ip address  4.4.4.4 255.255.255.255
+        - interface Loopback1
+        - description Loopback 5
+        - ip address 5.5.5.5 255.255.255.255
+        - interface Loopback2
+        - description Loopback 6
+        - ip address 6.6.6.6 255.255.255.255
+
+  

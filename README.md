@@ -2,4 +2,4 @@
 
 username admin pass cisco
 
-line con pass cisco
+enable secret cisco

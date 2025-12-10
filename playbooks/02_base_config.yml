@@ -1,1 +1,16 @@
 ##Hostnames: Create Interfaces | Interface descriptions | Login banners
+
+---
+- name: Base Configurations for routers and switches
+  host: routers
+  gather_facts: no
+
+  tasks:
+  - name: login banners
+    cisco.ios.ios_config:
+    lines:
+      - banner login ^C
+      - Unauthorized access is prohibited.
+      - All activities are monitored and recorded.
+      - Disconnect immediately if you are not an authorized user.
+      - ^C

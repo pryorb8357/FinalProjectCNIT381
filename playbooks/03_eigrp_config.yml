@@ -1,70 +1,92 @@
 ---
-- name: Configure three loopback interfaces for each router
-  hosts: R1, R2 
+# ------------------------------------------------------------
+# Bring up management interfaces on both routers
+# ------------------------------------------------------------
+- name: Ensure GigabitEthernet0 is up on R1 and R2
+  hosts: R1, R2
   gather_facts: no
   tasks:
-    - name: Ensure Ethernet0/0 is up (already configured with management IP)
+    - name: Ensure GigabitEthernet0 is up
       ios_config:
+        parents: interface GigabitEthernet0
         lines:
           - no shutdown
-        parents: interface Ethernet0/0
       register: link_result
+
     - name: Debug link interface result
       debug:
         var: link_result
-  - name: Configure R1 loopbacks
-    hosts: R1
-    gather_facts: no
-    tasks:
+
+# ------------------------------------------------------------
+# Configure R1 loopbacks
+# ------------------------------------------------------------
+- name: Configure loopbacks on R1
+  hosts: R1
+  gather_facts: no
+  tasks:
     - name: Configure Loopback0
       ios_config:
+        parents: interface Loopback0
         lines:
           - ip address 1.1.1.1 255.255.255.255
-        parents: interface Loopback0
-      - name: Configure Loopback1
+
+    - name: Configure Loopback1
       ios_config:
+        parents: interface Loopback1
         lines:
           - ip address 2.2.2.2 255.255.255.255
-        parents: interface Loopback1
-      - name: Configure Loopback1
+
+    - name: Configure Loopback2
       ios_config:
+        parents: interface Loopback2
         lines:
           - ip address 3.3.3.3 255.255.255.255
-        parents: interface Loopback2
-  - name: Configure R2 loopbacks
-    hosts: R2
-    gather_facts: no
-    tasks:
+
+# ------------------------------------------------------------
+# Configure R2 loopbacks
+# ------------------------------------------------------------
+- name: Configure loopbacks on R2
+  hosts: R2
+  gather_facts: no
+  tasks:
     - name: Configure Loopback0
       ios_config:
+        parents: interface Loopback0
         lines:
           - ip address 4.4.4.4 255.255.255.255
-        parents: interface Loopback0
-      - name: Configure Loopback1
+
+    - name: Configure Loopback1
       ios_config:
+        parents: interface Loopback1
         lines:
           - ip address 5.5.5.5 255.255.255.255
-        parents: interface Loopback1
-      - name: Configure Loopback1
+
+    - name: Configure Loopback2
       ios_config:
+        parents: interface Loopback2
         lines:
           - ip address 6.6.6.6 255.255.255.255
-        parents: interface Loopback2
+
     - name: Verify loopback interface configuration
       ios_command:
         commands:
           - show ip interface brief
       register: output
+
     - name: Debug output
       debug:
         var: output.stdout_lines
 
+# ------------------------------------------------------------
+# Configure EIGRP on both routers
+# ------------------------------------------------------------
 - name: Configure EIGRP and advertise all networks
   hosts: R1, R2
   gather_facts: no
   tasks:
     - name: Configure EIGRP
       ios_config:
+        parents: router eigrp 100
         lines:
           - network 10.1.0.0 0.0.0.255
           - network 1.1.1.1 0.0.0.0
@@ -74,8 +96,8 @@
           - network 5.5.5.5 0.0.0.0
           - network 6.6.6.6 0.0.0.0
           - network 172.168.1.0 0.0.0.3
-        parents: router eigrp 100
       register: config_result
+
     - name: Debug config result
       debug:
         var: config_result
@@ -85,15 +107,17 @@
         commands:
           - show ip eigrp neighbors
       register: eigrp_neighbors
+
     - name: Debug EIGRP neighbors output
       debug:
         var: eigrp_neighbors.stdout_lines
-    
+
     - name: Verify EIGRP routes
       ios_command:
         commands:
           - show ip route eigrp
       register: eigrp_routes
+
     - name: Debug EIGRP routes output
       debug:
-        var: eigrp_routes.stdout_lines## EIGRP autonomous system 100 on both routers | Advertise all networks | Three loopback interfaces per router## EIGRP autonomous system 100 on both routers | Advertise all networks | Three loopback interfaces per router
+        var: eigrp_routes.stdout_lines

@@ -1,54 +1,65 @@
 ---
-# ------------------------------------------------------------
-# Banner for all routers and switches
-# ------------------------------------------------------------
-- name: Add login banner to all devices
-  hosts: routers, switch
+- name: Base configuration for routers and switch
+  hosts: all
   gather_facts: no
   tasks:
-    - name: Configure login banner
-      cisco.ios.ios_config:
-        lines:
-          - banner login ^C
-          - Unauthorized access is prohibited.
-          - All activities are monitored and recorded.
-          - Disconnect immediately if you are not an authorized user.
-          - ^C
 
-# ------------------------------------------------------------
-# R1 interface configuration
-# ------------------------------------------------------------
-- name: Configure interfaces on R1
-  hosts: R1
-  gather_facts: no
-  tasks:
-    - name: Configure R1 interfaces
-      cisco.ios.ios_config:
+    - name: Configure R1 GigabitEthernet0/0/0
+      ios_config:
+        parents: interface GigabitEthernet0/0/0
         lines:
-          - interface GigabitEthernet0/0/0
           - description R2-Gi0/0/0
           - ip address 172.168.1.1 255.255.255.252
           - no shutdown
-          - interface GigabitEthernet0/0/1
+      when: inventory_hostname == "R1"
+
+
+    - name: Configure R1 GigabitEthernet0/0/1
+      ios_config:
+        parents: interface GigabitEthernet0/0/1
+        lines:
           - description S1-F0/1
           - ip address 10.1.1.1 255.255.255.0
           - no shutdown
+      when: inventory_hostname == "R1"
 
-# ------------------------------------------------------------
-# R2 interface configuration
-# ------------------------------------------------------------
-- name: Configure interfaces on R2
-  hosts: R2
-  gather_facts: no
-  tasks:
+
+
+
     - name: Configure R2 interfaces
-      cisco.ios.ios_config:
+      ios_config:
+        parents: interface GigabitEthernet0/0/0
         lines:
-          - interface GigabitEthernet0/0/0
           - description R1-Gi0/0/0
           - ip address 172.168.1.2 255.255.255.252
           - no shutdown
-          - interface GigabitEthernet0/0/1
+      when: inventory_hostname == "R2"
+
+    - name: Configure R2 GigabitEthernet0/0/1
+      ios_config:
+        parents: interface GigabitEthernet0/0/1
+        lines:
           - description S1-F0/2
           - ip address 10.1.1.2 255.255.255.0
           - no shutdown
+      when: inventory_hostname == "R2"
+
+    - name: Configure S1 interfaces
+      ios_config:
+        parents: interface FastEthernet0/1
+        lines:
+          - description R1-Gi0/0/1
+          #- switchport mode access
+          #- switchport access vlan 10
+          - no shutdown
+      when: inventory_hostname == "S1"
+
+    - name: Configure S1 FastEthernet0/2
+      ios_config:
+        parents: interface FastEthernet0/2
+        lines:
+          - description R2-Gi0/0/1
+          #- switchport mode access
+          #- switchport access vlan 10
+          - no shutdown
+      when: inventory_hostname == "S1"

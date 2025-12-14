@@ -1,4 +1,5 @@
 # FinalProjectCNIT381
+ssh-keygen -f "/home/devasc/.ssh/known_hosts" -R "10.1.1.1"
 
 Connor Simon, Zach Koski, Brendan Pryor
 

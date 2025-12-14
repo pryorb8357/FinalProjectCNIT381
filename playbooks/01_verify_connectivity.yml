@@ -1,5 +1,4 @@
 ##Ping checks
-####NEEDS TESTING
 ---
 - name: Verify connectivity to all network devices
   hosts: all

@@ -1,1 +1,27 @@
 ## Create 2-3 VLANs (your choice: Data, Voice, Management, etc.) | Configure trunk port to router
+####NEEDS TESTING
+---
+- name: Configure VLANs and trunk port on switch
+  hosts: switch
+  gather_facts: no
+
+  tasks:
+  - name: Create VLANs
+    cisco.ios.ios_config:
+      lines:
+        - vlan 2
+        - name Printer
+        - vlan 3
+        - name PC
+        - vlan 4
+        - name Voice
+        - vlan 5
+        - name Management
+
+  - name: Configure trunk port to router
+    cisco.ios.ios_config:
+      lines:
+        - interface FastEthernet0/1
+        - description Trunk to Router
+        - switchport mode trunk
+        - no shutdown

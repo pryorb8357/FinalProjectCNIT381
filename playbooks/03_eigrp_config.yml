@@ -29,18 +29,21 @@
         parents: interface Loopback0
         lines:
           - ip address 1.1.1.1 255.255.255.255
+          - description Loopback 1
 
     - name: Configure Loopback1
       ios_config:
         parents: interface Loopback1
         lines:
           - ip address 2.2.2.2 255.255.255.255
+          - description Loopback 2
 
     - name: Configure Loopback2
       ios_config:
         parents: interface Loopback2
         lines:
           - ip address 3.3.3.3 255.255.255.255
+          - description Loopback 3
 
 # ------------------------------------------------------------
 # Configure R2 loopbacks
@@ -54,18 +57,21 @@
         parents: interface Loopback0
         lines:
           - ip address 4.4.4.4 255.255.255.255
+          - description Loopback 4
 
     - name: Configure Loopback1
       ios_config:
         parents: interface Loopback1
         lines:
           - ip address 5.5.5.5 255.255.255.255
+          - description Loopback 5
 
     - name: Configure Loopback2
       ios_config:
         parents: interface Loopback2
         lines:
           - ip address 6.6.6.6 255.255.255.255
+          - description Loopback 6
 
     - name: Verify loopback interface configuration
       ios_command:

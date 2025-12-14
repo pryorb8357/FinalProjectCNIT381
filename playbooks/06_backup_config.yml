@@ -1,1 +1,32 @@
 ## Running config and vlan br
+####NEEDS TESTING
+---
+- name: Backup running configuration
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Backup running configuration
+      cisco.ios.ios_command:
+        commands:
+          - show running-config
+      register: running_config 
+
+    - name: Save running configuration to file
+      copy:
+        content: "{{ running_config.stdout[0] }}"
+        dest: "./backups/{{ inventory_hostname }}_running_config.txt"
+
+- name: backup vlan brief
+  hosts: switch
+  gather_facts: no
+  tasks:
+    - name: Backup VLAN brief
+      cisco.ios.ios_command:
+        commands:
+          - show vlan brief
+      register: vlan_brief 
+
+    - name: Save VLAN brief to file
+      copy:
+        content: "{{ vlan_brief.stdout[0] }}"
+        dest: "./backups/{{ inventory_hostname }}_vlan_brief.txt"

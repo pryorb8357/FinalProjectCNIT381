@@ -1,1 +1,15 @@
 ##Ping checks
+####NEEDS TESTING
+---
+- name: Verify connectivity to all network devices
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping all devices
+      ansible.builtin.ping:
+      register: ping_result
+
+    - name: Display ping results
+      debug:
+        msg: "Success: {{inventory_hostname}}"
+      when: ping_result.ping == "pong"

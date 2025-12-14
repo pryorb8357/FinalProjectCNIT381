@@ -1,5 +1,5 @@
 ## Create 2-3 VLANs (your choice: Data, Voice, Management, etc.) | Configure trunk port to router
-####NEEDS TESTING
+
 ---
 - name: Configure VLANs and trunk port on switch
   hosts: switch

@@ -1,1 +1,16 @@
 ##NTP: time.google.com (216.239.35.0) | Logging: buffered 16384
+
+---
+- name: Configure NTP and logging
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Configure NTP server
+      ios_config:
+        lines:
+          - ntp server 216.239.35.0
+
+    - name: Configure logging buffered
+      ios_config:
+        lines:
+          - logging buffered 16384

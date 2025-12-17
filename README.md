@@ -31,11 +31,11 @@ These ansible playbooks represent the convience and power of network automation.
 
   └── documentation/
 
-    ├──Addressing Table
+   ├──Addressing Table
     
-    ├──Topology
+   ├──Topology
   
-    └── VLANs
+   └── VLANs
 
 **Playbooks**
 Verify connectivity: verifies the connectivity between all the devices on the network.

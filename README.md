@@ -26,6 +26,7 @@ These ansible playbooks represent the convience and power of network automation.
 
 
 **Playbooks**
+
 Verify connectivity: verifies the connectivity between all the devices on the network.
 
 Command: ansible-playbook playbooks/01_verify_connectivity.yml

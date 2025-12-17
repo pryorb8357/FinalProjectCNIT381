@@ -9,20 +9,20 @@ These ansible playbooks represent the convience and power of network automation.
 
 **Project Structure**
 
-├── README.md
-├── ansible.cfg
-├── inventory.ini
-├── playbooks/
-│ ├── 01_verify_connectivity.yml
-│ ├── 02_base_config.yml
-│ ├── 03_eigrp_config.yml
-│ ├── 04_vlan_config.yml
-│ ├── 05_services_config.yml
-│ └── 06_backup_config.yml
-  └── documentation/
-   ├──Addressing Table
-   ├──Topology
-   └── VLANs
+├── README.md 
+├── ansible.cfg 
+├── inventory.ini 
+├── playbooks/ 
+│ ├── 01_verify_connectivity.yml 
+│ ├── 02_base_config.yml 
+│ ├── 03_eigrp_config.yml 
+│ ├── 04_vlan_config.yml 
+│ ├── 05_services_config.yml 
+│ └── 06_backup_config.yml 
+  └── documentation/ 
+   ├──Addressing Table 
+   ├──Topology 
+   └── VLANs 
 
 **Playbooks**
 Verify connectivity: verifies the connectivity between all the devices on the network.

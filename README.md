@@ -27,20 +27,26 @@ These ansible playbooks represent the convience and power of network automation.
 
 **Playbooks**
 Verify connectivity: verifies the connectivity between all the devices on the network.
+
 Command: ansible-playbook playbooks/01_verify_connectivity.yml
 
 Base Configuration: Configures hostnames, interface descriptions, and IP addresses.
+
 Command: ansible-playbook playbooks/02_base_config.yml
 
 EIGRP: Configures three loopback interfaces per router, EIGRP AS 100, and the network advertisements.
+
 Command: ansible-playbook playbooks/03_eigrp_config.yml
 
 VLAN config: Congigures VLANS and trunk port toward the routers. 
+
 Command:ansible-playbook playbooks/04_vlan_config.yml
 
 Services: Configures NTP and logging.
+
 Command:ansible-playbook playbooks/05_services_config.yml
 
 Backup config: Saves running configs to the directory
+
 Command: ansible-playbook playbooks/06_backup_config.yml
 

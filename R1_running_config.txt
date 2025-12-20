@@ -1,0 +1,210 @@
+Building configuration...
+
+
+Current configuration : 4525 bytes
+!
+! Last configuration change at 18:10:43 UTC Sun Dec 14 2025 by admin
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+logging buffered 16384
+enable secret 5 $1$4ztC$VRw8s5wk/ddduC0VyMuAW1
+!
+no aaa new-model
+!
+no ip domain lookup
+ip domain name lab
+ip dhcp excluded-address 10.1.1.1 10.1.1.10
+!
+ip dhcp pool pool
+ network 10.1.1.0 255.255.255.0
+ default-router 10.1.1.1 
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+multilink bundle-name authenticated
+!
+!
+!
+crypto pki trustpoint TP-self-signed-738943913
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-738943913
+ revocation-check none
+ rsakeypair TP-self-signed-738943913
+!
+!
+crypto pki certificate chain TP-self-signed-738943913
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 37333839 34333931 33301E17 0D323531 32313431 37303030 
+  375A170D 33303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3733 38393433 
+  39313330 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 97D7F6DA 31C5B5AA EC303334 BBE8D06A 7E478936 E1C953F1 BCA6F590 
+  C0B746FB 953853E8 B34A7EA3 A5BC619E 984553CA B0A81455 7F4B2737 8CA92B03 
+  4E07B11B 0028FDD7 E3CF9406 AFD7E647 22AF5E5A 783395A4 E1A3B962 6239F81D 
+  F39CA4BE AA25C0B4 1724DAC2 3FC99053 0228D6DA 6E346C37 27DC3C20 08553AD4 
+  9C6343A3 DC3F3622 62FE9106 535C268B 8AE07AEA 738926E2 7D10777D 8EBBC272 
+  7AF049AF E8AC426F F8D5BD88 FAD59D53 36E1721D 5771B49E 99BCA68E 7206588C 
+  87EC3B98 69718BF5 45F14101 EFCE0668 C7F8A63B EC9B6803 0F694A39 AC3D3D45 
+  CF84BC23 8C6FB425 52E9EBDA 9C8FC311 EC4F7EC6 64E66000 26DFA4C6 305A0F24 
+  580E69FD 02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 
+  0603551D 23041830 1680146C 6E3D3452 5418FD34 B0C91681 70CE3517 3EA80530 
+  1D060355 1D0E0416 04146C6E 3D345254 18FD34B0 C9168170 CE35173E A805300D 
+  06092A86 4886F70D 01010505 00038201 0100332C E0E7CC5C 7661C8EC 04A402CF 
+  D7368876 4A07084D C27B87AC 863DDCCA 10C1DD4C D71FF645 7A28168A A4E03532 
+  1DDE9F1A CE781B37 54A0EE5D 863D2A41 89CA1B7B 8CBE5149 58AFC89B 38A9F7BC 
+  03988B28 909C6350 E6BC36B5 7AE48A27 F8991A48 5015B082 B00C1992 D5BCA3EB 
+  700A239E 6782FB99 08402DE4 A77D2BDE C0FCBAFF AEFA4AF9 62410669 5DD7D242 
+  6711568D E4C53CB3 3C772250 BD24CE1D EC5F8CAF FE5D7479 29A0837C A8019A1E 
+  A39C96C8 98766075 D4DCEFDA 67B2053D 705A49DB 7B20580B 4CCCB5ED 138D05DA 
+  D2FBF344 3E3F94B4 2E93C7B8 AB1B1A7E 9EDA132E 8087A565 161E11B9 79094BBC 
+  C1B81825 AFA7F842 206DF560 9B3A126C 0078
+  	quit
+!
+license udi pid ISR4331/K9 sn FLM2406006H
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username admin secret 5 $1$iHPy$q97JjfofnLiC0rAzTgcqD.
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback0
+ description Loopback 1
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Loopback1
+ description Loopback 2
+ ip address 2.2.2.2 255.255.255.255
+!
+interface Loopback2
+ description Loopback 3
+ ip address 3.3.3.3 255.255.255.255
+!
+interface GigabitEthernet0/0/0
+ description R2-Gi0/0/0
+ ip address 172.168.1.1 255.255.255.252
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ description S1-F0/1
+ ip address 10.1.1.1 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface Serial0/1/0
+!
+interface Serial0/1/1
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ no ip address
+ negotiation auto
+!
+!
+router eigrp 100
+ network 1.1.1.1 0.0.0.0
+ network 2.2.2.2 0.0.0.0
+ network 3.3.3.3 0.0.0.0
+ network 4.4.4.4 0.0.0.0
+ network 5.5.5.5 0.0.0.0
+ network 6.6.6.6 0.0.0.0
+ network 10.1.0.0 0.0.0.255
+ network 172.168.1.0 0.0.0.3
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip tftp source-interface GigabitEthernet0
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+ntp server 216.239.35.0
+!
+!
+!
+!
+!
+end
